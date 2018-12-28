@@ -1,0 +1,1 @@
+export { movePlayer } from "./grid";
