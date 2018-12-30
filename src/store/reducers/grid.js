@@ -15,7 +15,8 @@ const movePlayer = (state, action) => {
   currentLevelGrid[x][y] = 0;
 
   switch (action.dir.keyCode) {
-    case 37:
+    // left
+    case 38:
       x = x - 1;
       currentLevelGrid[x][y] = 1;
       return {
@@ -23,7 +24,8 @@ const movePlayer = (state, action) => {
         playerX: state.playerX - 1,
         currentLevelGrid
       };
-    case 38:
+    // up
+    case 37:
       y = y - 1;
       currentLevelGrid[x][y] = 1;
       return {
@@ -31,7 +33,8 @@ const movePlayer = (state, action) => {
         playerY: state.playerY - 1,
         currentLevelGrid
       };
-    case 39:
+    // right
+    case 40:
       x = x + 1;
       currentLevelGrid[x][y] = 1;
       return {
@@ -39,7 +42,8 @@ const movePlayer = (state, action) => {
         playerX: state.playerX + 1,
         currentLevelGrid
       };
-    case 40:
+    // down
+    case 39:
       y = y + 1;
       currentLevelGrid[x][y] = 1;
       return {

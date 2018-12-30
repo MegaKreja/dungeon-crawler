@@ -13,9 +13,19 @@ class App extends Component {
   }
 
   render() {
+    const grid = this.props.grid.map(row => {
+      return (
+        <tr>
+          {row.map(val => {
+            return <td>{val}</td>;
+          })}
+        </tr>
+      );
+    });
+
     return (
       <div className="App">
-        <h1>Hello</h1>
+        <table>{grid}</table>
       </div>
     );
   }
