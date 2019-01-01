@@ -10,45 +10,44 @@ const initialState = {
 const movePlayer = (state, action) => {
   let x = state.playerX;
   let y = state.playerY;
-  console.log(x, y);
   const currentLevelGrid = [...state.currentLevelGrid];
   currentLevelGrid[x][y] = 0;
 
   switch (action.dir.keyCode) {
     // left
     case 38:
-      x = x - 1;
+      x = wallStop(x, "left");
       currentLevelGrid[x][y] = 1;
       return {
         ...state,
-        playerX: state.playerX - 1,
+        playerX: x,
         currentLevelGrid
       };
     // up
     case 37:
-      y = y - 1;
+      y = wallStop(y, "up");
       currentLevelGrid[x][y] = 1;
       return {
         ...state,
-        playerY: state.playerY - 1,
+        playerY: y,
         currentLevelGrid
       };
     // right
     case 40:
-      x = x + 1;
+      x = wallStop(x, "right");
       currentLevelGrid[x][y] = 1;
       return {
         ...state,
-        playerX: state.playerX + 1,
+        playerX: x,
         currentLevelGrid
       };
     // down
     case 39:
-      y = y + 1;
+      y = wallStop(y, "down");
       currentLevelGrid[x][y] = 1;
       return {
         ...state,
-        playerY: state.playerY + 1,
+        playerY: y,
         currentLevelGrid
       };
     default:
@@ -56,10 +55,23 @@ const movePlayer = (state, action) => {
   }
 };
 
+const wallStop = (coord, dir) => {
+  if (dir === "left" || dir === "up") {
+    if (coord - 1 < 0 || coord - 1 === 2) {
+      return coord;
+    }
+    return coord - 1;
+  } else {
+    if (coord + 1 > 20 || coord + 1 === 2) {
+      return coord;
+    }
+    return coord + 1;
+  }
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.MOVE_PLAYER:
-      console.log(state);
       return movePlayer(state, action);
     default:
       return state;
