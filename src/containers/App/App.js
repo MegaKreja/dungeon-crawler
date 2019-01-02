@@ -25,7 +25,9 @@ class App extends Component {
 
     return (
       <div className="App">
-        <table>{grid}</table>
+        <table>
+          <tbody>{grid}</tbody>
+        </table>
       </div>
     );
   }
