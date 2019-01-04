@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionsTypes";
-import { levelOne } from "../../dungeonGrids/levelOne/levelOne";
+import { levelOne } from "../../constants/levels";
+import { weapons } from "../../constants/weapons";
 
 const initialState = {
   playerX: 10,
@@ -7,6 +8,8 @@ const initialState = {
   playerHealth: 100,
   playerExp: 0,
   playerLvl: 1,
+  floor: 1,
+  weapon: { name: "Bare Fists", damage: 5 },
   currentLevelGrid: levelOne
 };
 
@@ -14,6 +17,7 @@ const movePlayer = (state, action) => {
   let x = state.playerX;
   let y = state.playerY;
   let health = state.playerHealth;
+  let weapon = Object.assign({}, state.weapon);
   const currentLevelGrid = [...state.currentLevelGrid];
   currentLevelGrid[x][y] = 0;
 
@@ -21,45 +25,53 @@ const movePlayer = (state, action) => {
     // left
     case 38:
       x = wallStop(state, "left");
-      health = gainHealth(state, "left");
+      health = gainHealth(state, x, y);
+      weapon = getWeapon(state, x, y);
       currentLevelGrid[x][y] = 1;
       return {
         ...state,
         playerX: x,
         playerHealth: health,
+        weapon,
         currentLevelGrid
       };
     // up
     case 37:
       y = wallStop(state, "up");
-      health = gainHealth(state, "up");
+      health = gainHealth(state, x, y);
+      weapon = getWeapon(state, x, y);
       currentLevelGrid[x][y] = 1;
       return {
         ...state,
         playerY: y,
         playerHealth: health,
+        weapon,
         currentLevelGrid
       };
     // right
     case 40:
       x = wallStop(state, "right");
-      health = gainHealth(state, "right");
+      health = gainHealth(state, x, y);
+      weapon = getWeapon(state, x, y);
       currentLevelGrid[x][y] = 1;
       return {
         ...state,
         playerX: x,
         playerHealth: health,
+        weapon,
         currentLevelGrid
       };
     // down
     case 39:
       y = wallStop(state, "down");
-      health = gainHealth(state, "down");
+      health = gainHealth(state, x, y);
+      weapon = getWeapon(state, x, y);
       currentLevelGrid[x][y] = 1;
       return {
         ...state,
         playerY: y,
         playerHealth: health,
+        weapon,
         currentLevelGrid
       };
     default:
@@ -92,29 +104,25 @@ const wallStop = (state, dir) => {
   }
 };
 
-const gainHealth = (state, dir) => {
-  const { playerX, playerY, currentLevelGrid, playerHealth } = state;
-  if (dir === "left") {
-    if (currentLevelGrid[playerX - 1][playerY] === 3) {
-      return playerHealth + 30;
-    }
-    return playerHealth;
-  } else if (dir === "up") {
-    if (currentLevelGrid[playerX][playerY - 1] === 3) {
-      return playerHealth + 30;
-    }
-    return playerHealth;
-  } else if (dir === "down") {
-    if (currentLevelGrid[playerX][playerY + 1] === 3) {
-      return playerHealth + 30;
-    }
-    return playerHealth;
-  } else {
-    if (currentLevelGrid[playerX + 1][playerY] === 3) {
-      return playerHealth + 30;
-    }
-    return playerHealth;
+const gainHealth = (state, x, y) => {
+  const { currentLevelGrid, playerHealth } = state;
+  if (currentLevelGrid[x][y] === 3) {
+    return playerHealth + 30;
   }
+  return playerHealth;
+};
+
+const getWeapon = (state, x, y) => {
+  const { currentLevelGrid, weapon, floor } = state;
+  const name = weapons[floor].name;
+  const damage = weapons[floor].damage;
+  if (currentLevelGrid[x][y] === 4) {
+    return {
+      name,
+      damage
+    };
+  }
+  return weapon;
 };
 
 const reducer = (state = initialState, action) => {
