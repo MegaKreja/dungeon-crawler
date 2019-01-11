@@ -24,17 +24,16 @@ const movePlayer = (state, action) => {
   switch (action.dir.keyCode) {
     // left
     case 37:
-      // player come to wall
-      playerY = wallStop(state, "left");
       // player get health
       playerHealth = gainHealth(state, playerX, playerY);
       // player get weapon
       weapon = getWeapon(state, playerX, playerY);
       // if there was a fight
-      // fightResult = fightChance(state, "left");
-      // playerY = fightResult.playerY;
-      // playerHealth = fightResult.playerHealth;
-      // currentEnemy = fightResult.currentEnemy;
+      fightResult = fightChance(state, "left");
+      // player come to wall or there is fight
+      playerY = wallStop(state, "left") ? playerY : fightResult.playerY;
+      playerHealth = fightResult.playerHealth;
+      currentEnemy = fightResult.currentEnemy;
       // current position
       currentLevelGrid[playerX][playerY] = 1;
       return {
@@ -47,14 +46,13 @@ const movePlayer = (state, action) => {
       };
     // up
     case 38:
-      playerX = wallStop(state, "up");
       playerHealth = gainHealth(state, playerX, playerY);
       weapon = getWeapon(state, playerX, playerY);
 
-      // fightResult = fightChance(state, "up");
-      // playerX = fightResult.playerX;
-      // playerHealth = fightResult.playerHealth;
-      // currentEnemy = fightResult.currentEnemy;
+      fightResult = fightChance(state, "up");
+      playerX = wallStop(state, "up") ? playerX : fightResult.playerX;
+      playerHealth = fightResult.playerHealth;
+      currentEnemy = fightResult.currentEnemy;
 
       currentLevelGrid[playerX][playerY] = 1;
       return {
@@ -67,14 +65,13 @@ const movePlayer = (state, action) => {
       };
     // right
     case 39:
-      playerY = wallStop(state, "right");
       playerHealth = gainHealth(state, playerX, playerY);
       weapon = getWeapon(state, playerX, playerY);
 
-      // fightResult = fightChance(state, "right");
-      // playerY = fightResult.playerY;
-      // playerHealth = fightResult.playerHealth;
-      // currentEnemy = fightResult.currentEnemy;
+      fightResult = fightChance(state, "right");
+      playerY = wallStop(state, "right") ? playerY : fightResult.playerY;
+      playerHealth = fightResult.playerHealth;
+      currentEnemy = fightResult.currentEnemy;
 
       currentLevelGrid[playerX][playerY] = 1;
       return {
@@ -87,14 +84,13 @@ const movePlayer = (state, action) => {
       };
     // down
     case 40:
-      playerX = wallStop(state, "down");
       playerHealth = gainHealth(state, playerX, playerY);
       weapon = getWeapon(state, playerX, playerY);
 
-      // fightResult = fightChance(state, "down");
-      // playerY = fightResult.playerY;
-      // playerHealth = fightResult.playerHealth;
-      // currentEnemy = fightResult.currentEnemy;
+      fightResult = fightChance(state, "down");
+      playerX = wallStop(state, "down") ? playerX : fightResult.playerX;
+      playerHealth = fightResult.playerHealth;
+      currentEnemy = fightResult.currentEnemy;
 
       currentLevelGrid[playerX][playerY] = 1;
       return {
@@ -114,24 +110,24 @@ const wallStop = (state, dir) => {
   const { playerX, playerY, currentLevelGrid } = state;
   if (dir === "left") {
     if (playerY - 1 < 0 || currentLevelGrid[playerX][playerY - 1] === 2) {
-      return playerY;
+      return true;
     }
-    return playerY - 1;
+    return false;
   } else if (dir === "up") {
     if (playerX - 1 < 0 || currentLevelGrid[playerX - 1][playerY] === 2) {
-      return playerX;
+      return true;
     }
-    return playerX - 1;
+    return false;
   } else if (dir === "right") {
     if (playerY + 1 > 20 || currentLevelGrid[playerX][playerY + 1] === 2) {
-      return playerY;
+      return true;
     }
-    return playerY + 1;
+    return false;
   } else if (dir === "down") {
     if (playerX + 1 > 20 || currentLevelGrid[playerX + 1][playerY] === 2) {
-      return playerX;
+      return true;
     }
-    return playerX + 1;
+    return false;
   }
 };
 
