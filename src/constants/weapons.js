@@ -1,9 +1,5 @@
 export const weapons = [
   {
-    name: "Bare Fists",
-    damage: 5
-  },
-  {
     name: "Baton",
     damage: 10
   },

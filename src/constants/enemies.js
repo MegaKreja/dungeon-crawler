@@ -58,4 +58,42 @@ export const enemiesFirstFloor = [
     health: 20
   }
 ];
-// neprijatelji za svaki sprat zasebno zajedno sa koordinatama
+
+// export const enemiesSecondFloor = [
+//   {
+//     x: 2,
+//     y: 3,
+//     name: "NSF Trooper",
+//     damage: 20,
+//     health: 20
+//   },
+//   {
+//     x: 10,
+//     y: 8,
+//     name: "NSF Trooper",
+//     damage: 20,
+//     health: 20
+//   },
+//   {
+//     x: 15,
+//     y: 2,
+//     name: "NSF Trooper",
+//     damage: 20,
+//     health: 20
+//   },
+//   {
+//     x: 4,
+//     y: 17,
+//     name: "NSF Trooper",
+//     damage: 20,
+//     health: 20
+//   },
+//   {
+//     x: 15,
+//     y: 4,
+//     name: "NSF Trooper",
+//     damage: 20,
+//     health: 20
+//   }
+// ];
+// enemies for every floor different coords
