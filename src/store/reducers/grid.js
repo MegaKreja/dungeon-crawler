@@ -1,18 +1,18 @@
 import * as actionTypes from "../actions/actionsTypes";
-import levels from "../../constants/levels";
+import { map, player } from "../../constants/randomGrid";
 import { weapons } from "../../constants/weapons";
 import { enemiesFirstFloor } from "../../constants/enemies";
 
 const initialState = {
-  playerX: 10,
-  playerY: 10,
+  playerX: player.x,
+  playerY: player.y,
   playerHealth: 100,
   playerExp: 0,
   playerLvl: 1,
   floor: 0,
   weapon: { name: "Bare Fists", damage: 5 },
   currentEnemies: enemiesFirstFloor,
-  currentLevelGrid: levels[0]
+  currentLevelGrid: map
 };
 
 const movePlayer = (state, action) => {
@@ -154,7 +154,7 @@ const nextFloor = state => {
   floor += 1;
   playerX = 10;
   playerY = 10;
-  currentLevelGrid = levels[floor];
+  currentLevelGrid = map;
   return {
     ...state,
     playerX,
