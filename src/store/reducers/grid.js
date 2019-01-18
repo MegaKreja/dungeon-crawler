@@ -1,18 +1,21 @@
 import * as actionTypes from "../actions/actionsTypes";
-import { map, player } from "../../constants/randomGrid";
+import { completeMap } from "../../constants/randomGrid";
 import { weapons } from "../../constants/weapons";
 import { enemiesFirstFloor } from "../../constants/enemies";
 
+// first loaded grid
+let grid = completeMap();
+
 const initialState = {
-  playerX: player.x,
-  playerY: player.y,
+  playerX: grid.x,
+  playerY: grid.y,
   playerHealth: 100,
   playerExp: 0,
   playerLvl: 1,
   floor: 0,
   weapon: { name: "Bare Fists", damage: 5 },
   currentEnemies: enemiesFirstFloor,
-  currentLevelGrid: map
+  currentLevelGrid: grid.map
 };
 
 const movePlayer = (state, action) => {
@@ -28,6 +31,7 @@ const movePlayer = (state, action) => {
       fightResult = fightChance(state, "left");
       // player come to wall or there is fight
       playerY = wallStop(state, "left") ? playerY : fightResult.playerY;
+      // if there are fight, properties are changed, otherwise they stay same
       playerHealth = fightResult.playerHealth;
       currentEnemies = fightResult.currentEnemies;
       // player get health potion
@@ -129,12 +133,12 @@ const wallStop = (state, dir) => {
     }
     return false;
   } else if (dir === "right") {
-    if (playerY + 1 > 20 || currentLevelGrid[playerX][playerY + 1] === 2) {
+    if (playerY + 1 > 29 || currentLevelGrid[playerX][playerY + 1] === 2) {
       return true;
     }
     return false;
   } else if (dir === "down") {
-    if (playerX + 1 > 20 || currentLevelGrid[playerX + 1][playerY] === 2) {
+    if (playerX + 1 > 29 || currentLevelGrid[playerX + 1][playerY] === 2) {
       return true;
     }
     return false;
@@ -151,10 +155,12 @@ const gainHealth = (state, x, y) => {
 
 const nextFloor = state => {
   let { floor, playerX, playerY, currentEnemies, currentLevelGrid } = state;
+  // new randomized grid
+  grid = completeMap();
   floor += 1;
-  playerX = 10;
-  playerY = 10;
-  currentLevelGrid = map;
+  playerX = grid.x;
+  playerY = grid.y;
+  currentLevelGrid = grid.map;
   return {
     ...state,
     playerX,
@@ -196,7 +202,7 @@ const fightChance = (state, dir) => {
       currentLevelGrid
     };
   } else if (dir === "up") {
-    if (currentLevelGrid[playerX - 1][playerY] === 5) {
+    if (playerX - 1 > 0 && currentLevelGrid[playerX - 1][playerY] === 5) {
       return fight(state, playerX - 1, playerY);
     }
     return {
@@ -218,7 +224,7 @@ const fightChance = (state, dir) => {
       currentLevelGrid
     };
   } else if (dir === "down") {
-    if (currentLevelGrid[playerX + 1][playerY] === 5) {
+    if (playerX + 1 < 29 && currentLevelGrid[playerX + 1][playerY] === 5) {
       return fight(state, playerX + 1, playerY);
     }
     return {

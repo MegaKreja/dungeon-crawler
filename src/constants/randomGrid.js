@@ -85,11 +85,8 @@ const createMap = () => {
   };
 };
 
-const withoutItems = createMap();
-let grid = withoutItems.map;
-
 // add items to grid (type - type of item, legend is on top, numOfItems - number of selected item in grid)
-const seedWithItems = (type, numOfItems) => {
+const seedWithItems = (grid, type, numOfItems) => {
   for (let i = 0; i < numOfItems; i++) {
     let x = Math.floor(Math.random() * 30);
     let y = Math.floor(Math.random() * 30);
@@ -101,17 +98,29 @@ const seedWithItems = (type, numOfItems) => {
   }
 };
 
-// health
-seedWithItems(3, 5);
-// weapon
-seedWithItems(4, 3);
-// enemy
-seedWithItems(5, 5);
-// stairs to next floor
-seedWithItems(6, 1);
-
-export const map = grid;
-export const player = {
-  x: withoutItems.x,
-  y: withoutItems.y
+export const completeMap = () => {
+  // needed parameters in future
+  const withoutItems = createMap();
+  let map = withoutItems.map;
+  let x = withoutItems.x;
+  let y = withoutItems.y;
+  // health
+  seedWithItems(map, 3, 5);
+  // weapon
+  seedWithItems(map, 4, 3);
+  // enemy
+  seedWithItems(map, 5, 5);
+  // stairs to next floor
+  seedWithItems(map, 6, 1);
+  return {
+    map,
+    x,
+    y
+  };
 };
+
+// export const map = grid;
+// export const player = {
+//   x: withoutItems.x,
+//   y: withoutItems.y
+// };
