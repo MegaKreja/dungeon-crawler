@@ -1,20 +1,19 @@
 import * as actionTypes from "../actions/actionsTypes";
 import { completeMap } from "../../constants/randomGrid";
 import { weapons } from "../../constants/weapons";
-import { enemiesFirstFloor } from "../../constants/enemies";
 
-// first loaded grid
-let grid = completeMap();
+// first loaded grid with first floor
+let grid = completeMap(0);
 
 const initialState = {
   playerX: grid.x,
   playerY: grid.y,
-  playerHealth: 100,
+  playerHealth: 60,
   playerExp: 0,
   playerLvl: 1,
   floor: 0,
   weapon: { name: "Bare Fists", damage: 5 },
-  currentEnemies: enemiesFirstFloor,
+  currentEnemies: grid.currentEnemies,
   currentLevelGrid: grid.map
 };
 
@@ -32,10 +31,13 @@ const movePlayer = (state, action) => {
       // player come to wall or there is fight
       playerY = wallStop(state, "left") ? playerY : fightResult.playerY;
       // if there are fight, properties are changed, otherwise they stay same
-      playerHealth = fightResult.playerHealth;
+      // player get health potion or not, if there is not fight
+      playerHealth =
+        fightResult.playerHealth < playerHealth
+          ? fightResult.playerHealth
+          : gainHealth(state, playerX, playerY);
       currentEnemies = fightResult.currentEnemies;
-      // player get health potion
-      playerHealth = gainHealth(state, playerX, playerY);
+
       // player get weapon
       weapon = getWeapon(state, playerX, playerY);
       // if player go to next floor change whole grid
@@ -56,10 +58,12 @@ const movePlayer = (state, action) => {
     case 38:
       fightResult = fightChance(state, "up");
       playerX = wallStop(state, "up") ? playerX : fightResult.playerX;
-      playerHealth = fightResult.playerHealth;
+      playerHealth =
+        fightResult.playerHealth < playerHealth
+          ? fightResult.playerHealth
+          : gainHealth(state, playerX, playerY);
       currentEnemies = fightResult.currentEnemies;
 
-      playerHealth = gainHealth(state, playerX, playerY);
       weapon = getWeapon(state, playerX, playerY);
       if (currentLevelGrid[playerX][playerY] === 6) {
         return nextFloor(state, playerX, playerY);
@@ -77,10 +81,12 @@ const movePlayer = (state, action) => {
     case 39:
       fightResult = fightChance(state, "right");
       playerY = wallStop(state, "right") ? playerY : fightResult.playerY;
-      playerHealth = fightResult.playerHealth;
+      playerHealth =
+        fightResult.playerHealth < playerHealth
+          ? fightResult.playerHealth
+          : gainHealth(state, playerX, playerY);
       currentEnemies = fightResult.currentEnemies;
 
-      playerHealth = gainHealth(state, playerX, playerY);
       weapon = getWeapon(state, playerX, playerY);
       if (currentLevelGrid[playerX][playerY] === 6) {
         return nextFloor(state, playerX, playerY);
@@ -98,10 +104,12 @@ const movePlayer = (state, action) => {
     case 40:
       fightResult = fightChance(state, "down");
       playerX = wallStop(state, "down") ? playerX : fightResult.playerX;
-      playerHealth = fightResult.playerHealth;
+      playerHealth =
+        fightResult.playerHealth < playerHealth
+          ? fightResult.playerHealth
+          : gainHealth(state, playerX, playerY);
       currentEnemies = fightResult.currentEnemies;
 
-      playerHealth = gainHealth(state, playerX, playerY);
       weapon = getWeapon(state, playerX, playerY);
       if (currentLevelGrid[playerX][playerY] === 6) {
         return nextFloor(state, playerX, playerY);
@@ -155,12 +163,13 @@ const gainHealth = (state, x, y) => {
 
 const nextFloor = state => {
   let { floor, playerX, playerY, currentEnemies, currentLevelGrid } = state;
-  // new randomized grid
-  grid = completeMap();
   floor += 1;
+  // new randomized grid
+  grid = completeMap(floor);
   playerX = grid.x;
   playerY = grid.y;
   currentLevelGrid = grid.map;
+  currentEnemies = grid.currentEnemies;
   return {
     ...state,
     playerX,
@@ -244,6 +253,7 @@ const fight = (state, x, y) => {
   let enemyHealth = 20;
   console.log(currentEnemies);
   let enemyDamage = currentEnemies[0].damage;
+  console.log(enemyDamage, playerHealth);
   // find enemy from array to fight
   currentEnemies.forEach(enemy => {
     // different enemy for different coordinates lose health
@@ -256,6 +266,7 @@ const fight = (state, x, y) => {
   });
   // reduce player health if enemy is alive
   playerHealth = enemyHealth > 0 ? (playerHealth -= enemyDamage) : playerHealth;
+  console.log(enemyDamage, playerHealth);
   // when enemy is dead replace his place with empty tile
   currentLevelGrid =
     enemyHealth <= 0 ? (currentLevelGrid[x][y] = 0) : currentLevelGrid;

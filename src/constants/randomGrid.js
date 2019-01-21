@@ -1,3 +1,5 @@
+import { enemies } from "./enemies";
+
 // 0-empty field
 // 1-player
 // 2-wall
@@ -85,37 +87,53 @@ const createMap = () => {
   };
 };
 
+// enemies array for coordinates, damage and names
+let currentEnemies = [];
+
 // add items to grid (type - type of item, legend is on top, numOfItems - number of selected item in grid)
-const seedWithItems = (grid, type, numOfItems) => {
+const seedWithItems = (grid, type, numOfItems, floor) => {
   for (let i = 0; i < numOfItems; i++) {
+    console.log(floor);
     let x = Math.floor(Math.random() * 30);
     let y = Math.floor(Math.random() * 30);
+    console.log(enemies[floor]);
+    let enemy = {
+      ...enemies[floor],
+      x,
+      y
+    };
     if (grid[x][y] === 0) {
       grid[x][y] = type;
+      if (type === 5) {
+        currentEnemies.push(enemy);
+      }
     } else {
       i -= 1;
     }
   }
 };
 
-export const completeMap = () => {
+export const completeMap = floor => {
   // needed parameters in future
   const withoutItems = createMap();
   let map = withoutItems.map;
   let x = withoutItems.x;
   let y = withoutItems.y;
+  // make new enemies for new floor
+  currentEnemies = [];
   // health
-  seedWithItems(map, 3, 5);
+  seedWithItems(map, 3, 5, floor);
   // weapon
-  seedWithItems(map, 4, 3);
+  seedWithItems(map, 4, 3, floor);
   // enemy
-  seedWithItems(map, 5, 5);
+  seedWithItems(map, 5, 5, floor);
   // stairs to next floor
-  seedWithItems(map, 6, 1);
+  seedWithItems(map, 6, 1, floor);
   return {
     map,
     x,
-    y
+    y,
+    currentEnemies
   };
 };
 
