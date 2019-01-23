@@ -8,17 +8,25 @@ let grid = completeMap(0);
 const initialState = {
   playerX: grid.x,
   playerY: grid.y,
-  playerHealth: 60,
+  playerHealth: 100,
   playerExp: 0,
   playerLvl: 1,
   floor: 0,
-  weapon: { name: "Bare Fists", damage: 5 },
+  weapon: { name: "Baton", damage: 10 },
   currentEnemies: grid.currentEnemies,
   currentLevelGrid: grid.map
 };
 
 const movePlayer = (state, action) => {
-  let { playerX, playerY, playerHealth, weapon, currentEnemies } = state;
+  let {
+    playerX,
+    playerY,
+    playerHealth,
+    weapon,
+    currentEnemies,
+    playerExp,
+    playerLvl
+  } = state;
   let currentLevelGrid = [...state.currentLevelGrid];
   let fightResult = {};
   currentLevelGrid[playerX][playerY] = 0;
@@ -28,6 +36,8 @@ const movePlayer = (state, action) => {
     case 37:
       // if there was a fight
       fightResult = fightChance(state, "left");
+      playerExp = fightResult.playerExp;
+      playerLvl = fightResult.playerLvl;
       // player come to wall or there is fight
       playerY = wallStop(state, "left") ? playerY : fightResult.playerY;
       // if there are fight, properties are changed, otherwise they stay same
@@ -49,6 +59,8 @@ const movePlayer = (state, action) => {
       return {
         ...state,
         playerY,
+        playerExp,
+        playerLvl,
         playerHealth,
         weapon,
         currentEnemies,
@@ -57,6 +69,8 @@ const movePlayer = (state, action) => {
     // up
     case 38:
       fightResult = fightChance(state, "up");
+      playerExp = fightResult.playerExp;
+      playerLvl = fightResult.playerLvl;
       playerX = wallStop(state, "up") ? playerX : fightResult.playerX;
       playerHealth =
         fightResult.playerHealth < playerHealth
@@ -72,6 +86,8 @@ const movePlayer = (state, action) => {
       return {
         ...state,
         playerX,
+        playerExp,
+        playerLvl,
         playerHealth,
         weapon,
         currentEnemies,
@@ -80,6 +96,8 @@ const movePlayer = (state, action) => {
     // right
     case 39:
       fightResult = fightChance(state, "right");
+      playerExp = fightResult.playerExp;
+      playerLvl = fightResult.playerLvl;
       playerY = wallStop(state, "right") ? playerY : fightResult.playerY;
       playerHealth =
         fightResult.playerHealth < playerHealth
@@ -95,6 +113,8 @@ const movePlayer = (state, action) => {
       return {
         ...state,
         playerY,
+        playerExp,
+        playerLvl,
         playerHealth,
         weapon,
         currentEnemies,
@@ -103,6 +123,8 @@ const movePlayer = (state, action) => {
     // down
     case 40:
       fightResult = fightChance(state, "down");
+      playerExp = fightResult.playerExp;
+      playerLvl = fightResult.playerLvl;
       playerX = wallStop(state, "down") ? playerX : fightResult.playerX;
       playerHealth =
         fightResult.playerHealth < playerHealth
@@ -118,6 +140,8 @@ const movePlayer = (state, action) => {
       return {
         ...state,
         playerX,
+        playerExp,
+        playerLvl,
         playerHealth,
         weapon,
         currentEnemies,
@@ -195,10 +219,19 @@ const getWeapon = (state, x, y) => {
 
 const fightChance = (state, dir) => {
   const { playerX, playerY } = state;
-  let { playerHealth, currentEnemies, currentLevelGrid } = state;
+  let {
+    playerHealth,
+    currentEnemies,
+    currentLevelGrid,
+    playerExp,
+    playerLvl
+  } = state;
   console.log(currentEnemies);
   if (dir === "left") {
-    if (currentLevelGrid[playerX][playerY - 1] === 5) {
+    if (
+      currentLevelGrid[playerX][playerY - 1] === 5 ||
+      currentLevelGrid[playerX][playerY - 1] === 7
+    ) {
       // function with updated coordinates for particular direction
       return fight(state, playerX, playerY - 1);
     }
@@ -206,39 +239,58 @@ const fightChance = (state, dir) => {
     return {
       playerX,
       playerY: playerY - 1,
+      playerExp,
+      playerLvl,
       playerHealth,
       currentEnemies,
       currentLevelGrid
     };
   } else if (dir === "up") {
-    if (playerX - 1 > 0 && currentLevelGrid[playerX - 1][playerY] === 5) {
+    if (
+      playerX - 1 > 0 &&
+      (currentLevelGrid[playerX - 1][playerY] === 5 ||
+        currentLevelGrid[playerX - 1][playerY] === 7)
+    ) {
       return fight(state, playerX - 1, playerY);
     }
     return {
       playerX: playerX - 1,
       playerY,
+      playerExp,
+      playerLvl,
       playerHealth,
       currentEnemies,
       currentLevelGrid
     };
   } else if (dir === "right") {
-    if (currentLevelGrid[playerX][playerY + 1] === 5) {
+    if (
+      currentLevelGrid[playerX][playerY + 1] === 5 ||
+      currentLevelGrid[playerX][playerY + 1] === 7
+    ) {
       return fight(state, playerX, playerY + 1);
     }
     return {
       playerX,
       playerY: playerY + 1,
+      playerExp,
+      playerLvl,
       playerHealth,
       currentEnemies,
       currentLevelGrid
     };
   } else if (dir === "down") {
-    if (playerX + 1 < 29 && currentLevelGrid[playerX + 1][playerY] === 5) {
+    if (
+      playerX + 1 < 29 &&
+      (currentLevelGrid[playerX + 1][playerY] === 5 ||
+        currentLevelGrid[playerX + 1][playerY] === 7)
+    ) {
       return fight(state, playerX + 1, playerY);
     }
     return {
       playerX: playerX + 1,
       playerY,
+      playerExp,
+      playerLvl,
       playerHealth,
       currentEnemies,
       currentLevelGrid
@@ -248,10 +300,17 @@ const fightChance = (state, dir) => {
 
 const fight = (state, x, y) => {
   const { playerX, playerY, weapon } = state;
-  let { playerHealth, currentEnemies, currentLevelGrid } = state;
-  // health and damage for conditionals later
+  let {
+    playerHealth,
+    currentEnemies,
+    currentLevelGrid,
+    playerExp,
+    playerLvl
+  } = state;
+  // default health and damage for conditionals later
   let enemyHealth = 20;
-  console.log(currentEnemies);
+  const criticalDamageEnemy = Math.floor(Math.random() * 5);
+  const criticalDamagePlayer = Math.floor(Math.random() * 5);
   let enemyDamage = currentEnemies[0].damage;
   console.log(enemyDamage, playerHealth);
   // find enemy from array to fight
@@ -259,13 +318,20 @@ const fight = (state, x, y) => {
     // different enemy for different coordinates lose health
     if (enemy.x === x && enemy.y === y) {
       // enemy lose health
-      enemy.health -= weapon.damage;
+      enemy.health -= weapon.damage + criticalDamagePlayer;
       // get enemy health
       enemyHealth = enemy.health;
     }
   });
+  // get xp if enemy is defeated and level up if exp is in hundreds
+  playerExp = enemyHealth <= 0 ? playerExp + 20 : playerExp;
+  playerLvl =
+    playerExp % 100 === 0 && playerExp > 0 ? (playerLvl += 1) : playerLvl;
   // reduce player health if enemy is alive
-  playerHealth = enemyHealth > 0 ? (playerHealth -= enemyDamage) : playerHealth;
+  playerHealth =
+    enemyHealth > 0
+      ? (playerHealth -= enemyDamage + criticalDamageEnemy)
+      : playerHealth;
   console.log(enemyDamage, playerHealth);
   // when enemy is dead replace his place with empty tile
   currentLevelGrid =
@@ -274,6 +340,8 @@ const fight = (state, x, y) => {
   return {
     playerX,
     playerY,
+    playerExp,
+    playerLvl,
     playerHealth,
     currentEnemies,
     currentLevelGrid

@@ -90,13 +90,13 @@ const createMap = () => {
 // enemies array for coordinates, damage and names
 let currentEnemies = [];
 
-// add items to grid (type - type of item, legend is on top, numOfItems - number of selected item in grid)
+// add items to grid (type - type of item legend is on top, numOfItems - number of selected item in grid)
+// pick random coords, if position with that coords equal to zero add to the grid
 const seedWithItems = (grid, type, numOfItems, floor) => {
   for (let i = 0; i < numOfItems; i++) {
-    console.log(floor);
     let x = Math.floor(Math.random() * 30);
     let y = Math.floor(Math.random() * 30);
-    console.log(enemies[floor]);
+    // add coords to element of enemies array
     let enemy = {
       ...enemies[floor],
       x,
@@ -104,8 +104,12 @@ const seedWithItems = (grid, type, numOfItems, floor) => {
     };
     if (grid[x][y] === 0) {
       grid[x][y] = type;
+      // fill currentEnemies array
       if (type === 5) {
         currentEnemies.push(enemy);
+      }
+      if (floor === 3 && type === 6) {
+        grid[x][y] = 7;
       }
     } else {
       i -= 1;
