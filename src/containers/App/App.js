@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions/index";
+import Hud from "../../components/Hud/Hud";
 import "./App.css";
 
 class App extends Component {
@@ -25,6 +26,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        <Hud />
         <table>
           <tbody>{grid}</tbody>
         </table>

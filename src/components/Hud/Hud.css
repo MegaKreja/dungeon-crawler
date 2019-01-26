@@ -1,0 +1,35 @@
+.box {
+  background-color: #5c5b5e;
+  width: 120px;
+  border-radius: 10px;
+  border: 1px solid #7c7c7e;
+  margin: 1% 0 0 1%;
+}
+
+.stats .left {
+  display: inline-block;
+}
+
+.stats .aug {
+  background-color: #00ff01;
+  margin: 50% 0 0 50%;
+  width: 10px;
+  height: 90px;
+}
+
+.stats p {
+  margin: 0;
+  color: #00ff01;
+}
+
+.stats .right {
+  display: inline-block;
+}
+
+.humanSvg {
+  width: 100px;
+  height: 50%;
+  display: inline-block;
+
+  fill: red;
+}
