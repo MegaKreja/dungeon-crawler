@@ -4,6 +4,7 @@
   border-radius: 10px;
   border: 1px solid #7c7c7e;
   margin: 1% 0 0 1%;
+  position: absolute;
 }
 
 .stats .left {
@@ -26,10 +27,44 @@
   display: inline-block;
 }
 
-.humanSvg {
-  width: 100px;
-  height: 50%;
-  display: inline-block;
+.right table {
+  margin-left: 1em;
+  border-collapse: collapse;
+  z-index: 1;
+}
 
-  fill: red;
+.right td {
+  border: 1px solid #656668;
+  width: 10px;
+  height: 10px;
+}
+
+.humanSvg {
+  position: absolute;
+  top: 20px;
+  width: 100px;
+  height: auto;
+  /* fill: #00ff01; */
+  z-index: 2;
+}
+
+.playerInfo p {
+  text-align: center;
+  /* color: black; */
+}
+
+.weapon {
+  bottom: 0;
+  margin-bottom: 1%;
+}
+
+.weapon img {
+  display: block;
+  margin: auto;
+}
+
+.weapon p {
+  margin: 0;
+  color: #fff;
+  text-align: center;
 }

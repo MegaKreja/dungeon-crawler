@@ -1,6 +1,6 @@
 export const weapons = [
   {
-    name: "Baton",
+    name: "Crowbar",
     damage: 10
   },
   {
@@ -8,7 +8,7 @@ export const weapons = [
     damage: 15
   },
   {
-    name: "Assault Shotgun",
+    name: "Buckshot",
     damage: 20
   },
   {

@@ -12,7 +12,7 @@ const initialState = {
   playerExp: 0,
   playerLvl: 1,
   floor: 0,
-  weapon: { name: "Baton", damage: 10 },
+  weapon: { name: "Bare Hands", damage: 5 },
   currentEnemies: grid.currentEnemies,
   currentLevelGrid: grid.map
 };

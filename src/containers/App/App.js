@@ -25,11 +25,20 @@ class App extends Component {
     });
 
     return (
-      <div className="App">
-        <Hud />
-        <table>
-          <tbody>{grid}</tbody>
-        </table>
+      <div className="app">
+        <div className="hud">
+          <Hud
+            health={this.props.playerHealth}
+            exp={this.props.playerExp}
+            lvl={this.props.playerLvl}
+            weapon={this.props.weapon}
+          />
+        </div>
+        <div className="dungeon">
+          <table>
+            <tbody>{grid}</tbody>
+          </table>
+        </div>
       </div>
     );
   }
@@ -37,7 +46,11 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    grid: state.grid.currentLevelGrid
+    grid: state.grid.currentLevelGrid,
+    playerHealth: state.grid.playerHealth,
+    playerExp: state.grid.playerExp,
+    playerLvl: state.grid.playerLvl,
+    weapon: state.grid.weapon
   };
 };
 
