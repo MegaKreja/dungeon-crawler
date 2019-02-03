@@ -1,5 +1,6 @@
 import React from "react";
 import { ReactComponent as Human } from "../../images/human.svg";
+import fist from "../../images/hud_fist.png";
 import knife from "../../images/hud_knife.png";
 import hammer from "../../images/hud_hammer.png";
 import axe from "../../images/hud_axe.png";
@@ -8,7 +9,7 @@ import "./Hud.css";
 
 const Hud = props => {
   const grid = (
-    <table className="grid">
+    <table className="playerGrid">
       <tbody>
         <tr>
           <td />
@@ -86,7 +87,7 @@ const Hud = props => {
     healthColor = "#00ff01";
   }
 
-  let weaponImg = <img src="" alt="" />;
+  let weaponImg = <img src={fist} alt="" />;
   switch (props.weapon.name) {
     case "Knife":
       weaponImg = <img src={knife} alt="" />;
@@ -102,7 +103,7 @@ const Hud = props => {
       weaponImg = <img src={katana} alt="" />;
       break;
     default:
-      weaponImg = <img src="" alt="" />;
+      weaponImg = <img src={fist} alt="" />;
       break;
   }
 

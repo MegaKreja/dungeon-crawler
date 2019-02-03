@@ -324,9 +324,10 @@ const fight = (state, x, y) => {
     }
   });
   // get xp if enemy is defeated and level up if exp is in hundreds
+  let divider = 100 * playerLvl;
   playerExp = enemyHealth <= 0 ? playerExp + 20 : playerExp;
   playerLvl =
-    playerExp % 100 === 0 && playerExp > 0 ? (playerLvl += 1) : playerLvl;
+    playerExp % divider === 0 && playerExp > 0 ? (playerLvl += 1) : playerLvl;
   // reduce player health if enemy is alive
   playerHealth =
     enemyHealth > 0

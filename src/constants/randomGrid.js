@@ -130,7 +130,7 @@ export const completeMap = floor => {
   // weapon
   seedWithItems(map, 4, 1, floor);
   // enemy
-  seedWithItems(map, 5, 5, floor);
+  seedWithItems(map, 5, 10, floor);
   // stairs to next floor
   seedWithItems(map, 6, 1, floor);
   return {
