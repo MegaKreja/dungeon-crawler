@@ -16,7 +16,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app">
+      <div className="app" onClick={() => this.props.newGame()}>
         <div className="hud">
           <Hud
             health={this.props.playerHealth}
@@ -46,7 +46,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    movePlayer: keyCode => dispatch(actionCreators.movePlayer(keyCode))
+    movePlayer: keyCode => dispatch(actionCreators.movePlayer(keyCode)),
+    newGame: () => dispatch(actionCreators.newGame())
   };
 };
 

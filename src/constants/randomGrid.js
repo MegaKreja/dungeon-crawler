@@ -140,9 +140,3 @@ export const completeMap = floor => {
     currentEnemies
   };
 };
-
-// export const map = grid;
-// export const player = {
-//   x: withoutItems.x,
-//   y: withoutItems.y
-// };

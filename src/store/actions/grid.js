@@ -6,3 +6,9 @@ export const movePlayer = direction => {
     dir: direction
   };
 };
+
+export const newGame = () => {
+  return {
+    type: actionTypes.NEW_GAME
+  };
+};
