@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions/index";
+import Grid from "../../components/Grid/Grid";
 import Hud from "../../components/Hud/Hud";
 import "./App.css";
 
@@ -14,16 +15,6 @@ class App extends Component {
   }
 
   render() {
-    const grid = this.props.grid.map(row => {
-      return (
-        <tr>
-          {row.map(val => {
-            return <td>{val}</td>;
-          })}
-        </tr>
-      );
-    });
-
     return (
       <div className="app">
         <div className="hud">
@@ -35,9 +26,7 @@ class App extends Component {
           />
         </div>
         <div className="dungeon">
-          <table>
-            <tbody>{grid}</tbody>
-          </table>
+          <Grid grid={this.props.grid} floor={this.props.floor} />
         </div>
       </div>
     );
@@ -50,6 +39,7 @@ const mapStateToProps = state => {
     playerHealth: state.grid.playerHealth,
     playerExp: state.grid.playerExp,
     playerLvl: state.grid.playerLvl,
+    floor: state.grid.floor,
     weapon: state.grid.weapon
   };
 };

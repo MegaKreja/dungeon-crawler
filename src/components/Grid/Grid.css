@@ -1,0 +1,13 @@
+.grid table {
+  margin: 0 auto;
+  overflow: auto;
+  height: 100vh;
+}
+
+.grid td {
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: center center;
+  background-color: #544440;
+  width: 16px;
+}

@@ -1,21 +1,21 @@
 export const enemies = [
   {
-    name: "NSF Trooper",
+    name: "Skeleton",
     damage: 5,
     health: 30
   },
   {
-    name: "UNATCO Trooper",
+    name: "Goblin",
     damage: 10,
     health: 40
   },
   {
-    name: "MJ12 Trooper",
+    name: "Orc",
     damage: 18,
     health: 50
   },
   {
-    name: "Men in Black",
+    name: "Chort",
     damage: 30,
     health: 60
   }

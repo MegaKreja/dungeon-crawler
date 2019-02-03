@@ -7,33 +7,22 @@
   position: absolute;
 }
 
-.stats .left {
-  display: inline-block;
-}
-
-.stats .aug {
-  background-color: #00ff01;
-  margin: 50% 0 0 50%;
-  width: 10px;
-  height: 90px;
-}
-
 .stats p {
   margin: 0;
   color: #00ff01;
 }
 
-.stats .right {
-  display: inline-block;
+.stats .healthDiagram {
+  margin: 0 auto;
 }
 
-.right table {
-  margin-left: 1em;
+.healthDiagram table {
+  margin: 0 auto;
   border-collapse: collapse;
   z-index: 1;
 }
 
-.right td {
+.healthDiagram td {
   border: 1px solid #656668;
   width: 10px;
   height: 10px;
@@ -41,6 +30,7 @@
 
 .humanSvg {
   position: absolute;
+  margin-left: 10px;
   top: 20px;
   width: 100px;
   height: auto;
@@ -61,6 +51,7 @@
 .weapon img {
   display: block;
   margin: auto;
+  width: 100px;
 }
 
 .weapon p {

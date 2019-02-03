@@ -1,17 +1,4 @@
 .app {
-  /* display: inline-block; */
-}
-
-.hud {
-  width: 10%;
-  float: left;
-}
-
-.dungeon {
-  width: 90%;
-  float: left;
-}
-
-.dungeon table {
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
 }

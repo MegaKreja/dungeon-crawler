@@ -1,22 +1,18 @@
 export const weapons = [
   {
-    name: "Crowbar",
+    name: "Knife",
     damage: 10
   },
   {
-    name: "Pistol",
+    name: "Hammer",
     damage: 15
   },
   {
-    name: "Buckshot",
+    name: "Axe",
     damage: 20
   },
   {
-    name: "Assault Rifle",
+    name: "Katana",
     damage: 25
-  },
-  {
-    name: "Dragon Tooth Sword",
-    damage: 30
   }
 ];

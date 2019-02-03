@@ -1,10 +1,9 @@
 import React from "react";
 import { ReactComponent as Human } from "../../images/human.svg";
-import crowbar from "../../images/crowbar.png";
-import pistol from "../../images/pistol.png";
-import buckshot from "../../images/shotgun.png";
-import assaultRifle from "../../images/assaultRifle.png";
-import dragonSword from "../../images/dragonSword.png";
+import knife from "../../images/hud_knife.png";
+import hammer from "../../images/hud_hammer.png";
+import axe from "../../images/hud_axe.png";
+import katana from "../../images/hud_katana.png";
 import "./Hud.css";
 
 const Hud = props => {
@@ -87,24 +86,20 @@ const Hud = props => {
     healthColor = "#00ff01";
   }
 
-  let weaponImg = <img src={crowbar} alt="" />;
+  let weaponImg = <img src="" alt="" />;
   switch (props.weapon.name) {
-    case "Crowbar":
-      weaponImg = <img src={crowbar} alt="" />;
+    case "Knife":
+      weaponImg = <img src={knife} alt="" />;
       break;
-    case "Pistol":
-      weaponImg = <img src={pistol} alt="" />;
+    case "Hammer":
+      weaponImg = <img src={hammer} alt="" />;
       break;
-    case "Buckshot":
-      weaponImg = <img src={buckshot} alt="" />;
-      break;
-
-    case "Assault Rifle":
-      weaponImg = <img src={assaultRifle} alt="" />;
+    case "Axe":
+      weaponImg = <img src={axe} alt="" />;
       break;
 
-    case "Dragon Tooth Sword":
-      weaponImg = <img src={dragonSword} alt="" />;
+    case "Katana":
+      weaponImg = <img src={katana} alt="" />;
       break;
     default:
       weaponImg = <img src="" alt="" />;
@@ -114,11 +109,7 @@ const Hud = props => {
   return (
     <div className="hud">
       <div className="stats box">
-        <div className="left">
-          <div className="aug" />
-          <p className="be">BE</p>
-        </div>
-        <div className="right">
+        <div className="healthDiagram">
           {grid}
           <Human style={{ fill: healthColor }} className="humanSvg" />
         </div>
