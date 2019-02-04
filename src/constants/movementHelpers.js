@@ -1,5 +1,6 @@
 import { completeMap } from "./randomGrid";
 import { weapons } from "./weapons";
+import { enemies } from "./enemies";
 
 export const wallStop = (state, dir) => {
   const { playerX, playerY, currentLevelGrid } = state;
@@ -163,15 +164,24 @@ export const fight = (state, x, y) => {
   let enemyDamage = currentEnemies[0].damage;
   console.log(enemyDamage, playerHealth);
   // find enemy from array to fight
-  currentEnemies.forEach(enemy => {
-    // different enemy for different coordinates lose health
-    if (enemy.x === x && enemy.y === y) {
-      // enemy lose health
-      enemy.health -= weapon.damage + criticalDamagePlayer;
-      // get enemy health
-      enemyHealth = enemy.health;
-    }
-  });
+  // if enemy is boss
+  if (currentLevelGrid[x][y] === 7) {
+    enemies[4].health -= weapon.damage + criticalDamagePlayer;
+    enemyHealth = enemies[4].health;
+    enemyDamage = enemies[4].damage;
+  } else {
+    // regular enemy
+    currentEnemies.forEach(enemy => {
+      // different enemy for different coordinates lose health
+      if (enemy.x === x && enemy.y === y) {
+        // enemy lose health
+        enemy.health -= weapon.damage + criticalDamagePlayer;
+        // get enemy health
+        enemyHealth = enemy.health;
+      }
+    });
+  }
+
   // get xp if enemy is defeated and level up if exp is in hundreds
   let divider = 100 * playerLvl;
   playerExp = enemyHealth <= 0 ? playerExp + 20 : playerExp;
@@ -182,7 +192,7 @@ export const fight = (state, x, y) => {
     enemyHealth > 0
       ? (playerHealth -= enemyDamage + criticalDamageEnemy)
       : playerHealth;
-  console.log(enemyDamage, playerHealth);
+  console.log(enemyDamage, enemyHealth, playerHealth);
   // when enemy is dead replace his place with empty tile
   currentLevelGrid =
     enemyHealth <= 0 ? (currentLevelGrid[x][y] = 0) : currentLevelGrid;

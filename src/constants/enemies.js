@@ -1,11 +1,11 @@
 export const enemies = [
   {
-    name: "Skeleton",
+    name: "Goblin",
     damage: 5,
     health: 30
   },
   {
-    name: "Goblin",
+    name: "Skeleton",
     damage: 10,
     health: 40
   },
@@ -18,5 +18,10 @@ export const enemies = [
     name: "Chort",
     damage: 30,
     health: 60
+  },
+  {
+    name: "Beelzebub",
+    damage: 40,
+    health: 80
   }
 ];

@@ -1,4 +1,5 @@
 import React from "react";
+import uuidv1 from "uuid/v1";
 import "./Grid.css";
 import wall from "../../images/wall.png";
 import floor from "../../images/floor.png";
@@ -25,7 +26,7 @@ const Grid = props => {
 
   const game = props.grid.map(row => {
     return (
-      <tr>
+      <tr key={uuidv1()}>
         {row.map(val => {
           if (val === 0) {
             backgroundImg = floor;
@@ -45,7 +46,10 @@ const Grid = props => {
             backgroundImg = bigDemon;
           }
           return (
-            <td style={{ backgroundImage: "url(" + backgroundImg + ")" }} />
+            <td
+              key={uuidv1()}
+              style={{ backgroundImage: "url(" + backgroundImg + ")" }}
+            />
           );
         })}
       </tr>
