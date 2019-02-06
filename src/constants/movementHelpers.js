@@ -69,14 +69,7 @@ export const getWeapon = (state, x, y) => {
 
 export const fightChance = (state, dir) => {
   const { playerX, playerY } = state;
-  let {
-    playerHealth,
-    currentEnemies,
-    currentLevelGrid,
-    playerExp,
-    playerLvl
-  } = state;
-  console.log(currentEnemies);
+  let { currentLevelGrid } = state;
   if (dir === "left") {
     if (
       currentLevelGrid[playerX][playerY - 1] === 5 ||
@@ -87,13 +80,9 @@ export const fightChance = (state, dir) => {
     }
     // move player if there is not enemy
     return {
+      ...state,
       playerX,
-      playerY: playerY - 1,
-      playerExp,
-      playerLvl,
-      playerHealth,
-      currentEnemies,
-      currentLevelGrid
+      playerY: playerY - 1
     };
   } else if (dir === "up") {
     if (
@@ -104,13 +93,9 @@ export const fightChance = (state, dir) => {
       return fight(state, playerX - 1, playerY);
     }
     return {
+      ...state,
       playerX: playerX - 1,
-      playerY,
-      playerExp,
-      playerLvl,
-      playerHealth,
-      currentEnemies,
-      currentLevelGrid
+      playerY
     };
   } else if (dir === "right") {
     if (
@@ -120,13 +105,9 @@ export const fightChance = (state, dir) => {
       return fight(state, playerX, playerY + 1);
     }
     return {
+      ...state,
       playerX,
-      playerY: playerY + 1,
-      playerExp,
-      playerLvl,
-      playerHealth,
-      currentEnemies,
-      currentLevelGrid
+      playerY: playerY + 1
     };
   } else if (dir === "down") {
     if (
@@ -137,13 +118,9 @@ export const fightChance = (state, dir) => {
       return fight(state, playerX + 1, playerY);
     }
     return {
+      ...state,
       playerX: playerX + 1,
-      playerY,
-      playerExp,
-      playerLvl,
-      playerHealth,
-      currentEnemies,
-      currentLevelGrid
+      playerY
     };
   }
 };
@@ -155,14 +132,16 @@ export const fight = (state, x, y) => {
     currentEnemies,
     currentLevelGrid,
     playerExp,
-    playerLvl
+    playerLvl,
+    gameOver
   } = state;
   // default health and damage for conditionals later
   let enemyHealth = 20;
   const criticalDamageEnemy = Math.floor(Math.random() * 5);
   const criticalDamagePlayer = Math.floor(Math.random() * 5);
   let enemyDamage = currentEnemies[0].damage;
-  console.log(enemyDamage, playerHealth);
+  // boss health
+  let bossHealth = enemies[4].health;
   // find enemy from array to fight
   // if enemy is boss
   if (currentLevelGrid[x][y] === 7) {
@@ -192,10 +171,15 @@ export const fight = (state, x, y) => {
     enemyHealth > 0
       ? (playerHealth -= enemyDamage + criticalDamageEnemy)
       : playerHealth;
-  console.log(enemyDamage, enemyHealth, playerHealth);
   // when enemy is dead replace his place with empty tile
   currentLevelGrid =
     enemyHealth <= 0 ? (currentLevelGrid[x][y] = 0) : currentLevelGrid;
+  console.log(playerHealth, bossHealth);
+  if (playerHealth <= 0 || bossHealth <= 0) {
+    console.log("usli smo");
+    gameOver = true;
+  }
+  console.log(gameOver);
   // player remains in same place until enemy is defeated
   return {
     playerX,
@@ -204,6 +188,7 @@ export const fight = (state, x, y) => {
     playerLvl,
     playerHealth,
     currentEnemies,
-    currentLevelGrid
+    currentLevelGrid,
+    gameOver
   };
 };

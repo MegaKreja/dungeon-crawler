@@ -14,13 +14,14 @@ let grid = completeMap(0);
 const initialState = {
   playerX: grid.x,
   playerY: grid.y,
-  playerHealth: 100,
+  playerHealth: 1,
   playerExp: 0,
   playerLvl: 1,
   floor: 0,
   weapon: { name: "Bare Hands", damage: 5 },
   currentEnemies: grid.currentEnemies,
-  currentLevelGrid: grid.map
+  currentLevelGrid: grid.map,
+  gameOver: false
 };
 
 const newGame = (state, action) => {
@@ -30,6 +31,7 @@ const newGame = (state, action) => {
   const playerY = grid.y;
   const currentLevelGrid = grid.map;
   const currentEnemies = grid.currentEnemies;
+  const gameOver = false;
   return {
     ...state,
     playerHealth: 100,
@@ -40,7 +42,8 @@ const newGame = (state, action) => {
     playerX,
     playerY,
     currentEnemies,
-    currentLevelGrid
+    currentLevelGrid,
+    gameOver
   };
 };
 
@@ -52,12 +55,13 @@ const movePlayer = (state, action) => {
     weapon,
     currentEnemies,
     playerExp,
-    playerLvl
+    playerLvl,
+    gameOver
   } = state;
   let currentLevelGrid = [...state.currentLevelGrid];
   let fightResult = {};
+  // turn previous position to regular tile
   currentLevelGrid[playerX][playerY] = 0;
-  console.log(action.dir.keyCode);
   switch (action.dir.keyCode) {
     // left
     case 37:
@@ -81,6 +85,8 @@ const movePlayer = (state, action) => {
       if (currentLevelGrid[playerX][playerY] === 6) {
         return nextFloor(state, playerX, playerY);
       }
+      // if game over
+      gameOver = fightResult.gameOver;
       // current position if not next level is not entered
       currentLevelGrid[playerX][playerY] = 1;
       return {
@@ -91,7 +97,8 @@ const movePlayer = (state, action) => {
         playerHealth,
         weapon,
         currentEnemies,
-        currentLevelGrid
+        currentLevelGrid,
+        gameOver
       };
     // up
     case 38:
@@ -109,6 +116,7 @@ const movePlayer = (state, action) => {
       if (currentLevelGrid[playerX][playerY] === 6) {
         return nextFloor(state, playerX, playerY);
       }
+      gameOver = fightResult.gameOver;
       currentLevelGrid[playerX][playerY] = 1;
       return {
         ...state,
@@ -118,7 +126,8 @@ const movePlayer = (state, action) => {
         playerHealth,
         weapon,
         currentEnemies,
-        currentLevelGrid
+        currentLevelGrid,
+        gameOver
       };
     // right
     case 39:
@@ -136,6 +145,7 @@ const movePlayer = (state, action) => {
       if (currentLevelGrid[playerX][playerY] === 6) {
         return nextFloor(state, playerX, playerY);
       }
+      gameOver = fightResult.gameOver;
       currentLevelGrid[playerX][playerY] = 1;
       return {
         ...state,
@@ -145,7 +155,8 @@ const movePlayer = (state, action) => {
         playerHealth,
         weapon,
         currentEnemies,
-        currentLevelGrid
+        currentLevelGrid,
+        gameOver
       };
     // down
     case 40:
@@ -163,6 +174,7 @@ const movePlayer = (state, action) => {
       if (currentLevelGrid[playerX][playerY] === 6) {
         return nextFloor(state, playerX, playerY);
       }
+      gameOver = fightResult.gameOver;
       currentLevelGrid[playerX][playerY] = 1;
       return {
         ...state,
@@ -172,7 +184,8 @@ const movePlayer = (state, action) => {
         playerHealth,
         weapon,
         currentEnemies,
-        currentLevelGrid
+        currentLevelGrid,
+        gameOver
       };
     default:
       return state;

@@ -15,8 +15,18 @@ class App extends Component {
   }
 
   render() {
+    const gameOverScreen = (
+      <div className="gameOver">
+        {this.props.playerHealth <= 0 ? (
+          <h1>You are dead!</h1>
+        ) : (
+          <h1>You won, you defeated Beelzebub!</h1>
+        )}
+        <button onClick={() => this.props.newGame()}>Try Again?</button>
+      </div>
+    );
     return (
-      <div className="app" onClick={() => this.props.newGame()}>
+      <div className="app">
         <div className="hud">
           <Hud
             health={this.props.playerHealth}
@@ -26,7 +36,11 @@ class App extends Component {
           />
         </div>
         <div className="dungeon">
-          <Grid grid={this.props.grid} floor={this.props.floor} />
+          {!this.props.gameOver ? (
+            <Grid grid={this.props.grid} floor={this.props.floor} />
+          ) : (
+            gameOverScreen
+          )}
         </div>
       </div>
     );
@@ -40,7 +54,8 @@ const mapStateToProps = state => {
     playerExp: state.grid.playerExp,
     playerLvl: state.grid.playerLvl,
     floor: state.grid.floor,
-    weapon: state.grid.weapon
+    weapon: state.grid.weapon,
+    gameOver: state.grid.gameOver
   };
 };
 
