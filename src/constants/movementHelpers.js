@@ -69,7 +69,13 @@ export const getWeapon = (state, x, y) => {
 
 export const fightChance = (state, dir) => {
   const { playerX, playerY } = state;
-  let { currentLevelGrid } = state;
+  let {
+    currentLevelGrid,
+    playerHealth,
+    currentEnemies,
+    playerExp,
+    playerLvl
+  } = state;
   if (dir === "left") {
     if (
       currentLevelGrid[playerX][playerY - 1] === 5 ||
@@ -80,9 +86,13 @@ export const fightChance = (state, dir) => {
     }
     // move player if there is not enemy
     return {
-      ...state,
       playerX,
-      playerY: playerY - 1
+      playerY: playerY - 1,
+      playerExp,
+      playerLvl,
+      playerHealth,
+      currentEnemies,
+      currentLevelGrid
     };
   } else if (dir === "up") {
     if (
@@ -93,9 +103,13 @@ export const fightChance = (state, dir) => {
       return fight(state, playerX - 1, playerY);
     }
     return {
-      ...state,
       playerX: playerX - 1,
-      playerY
+      playerY,
+      playerExp,
+      playerLvl,
+      playerHealth,
+      currentEnemies,
+      currentLevelGrid
     };
   } else if (dir === "right") {
     if (
@@ -105,9 +119,13 @@ export const fightChance = (state, dir) => {
       return fight(state, playerX, playerY + 1);
     }
     return {
-      ...state,
       playerX,
-      playerY: playerY + 1
+      playerY: playerY + 1,
+      playerExp,
+      playerLvl,
+      playerHealth,
+      currentEnemies,
+      currentLevelGrid
     };
   } else if (dir === "down") {
     if (
@@ -118,9 +136,13 @@ export const fightChance = (state, dir) => {
       return fight(state, playerX + 1, playerY);
     }
     return {
-      ...state,
       playerX: playerX + 1,
-      playerY
+      playerY,
+      playerExp,
+      playerLvl,
+      playerHealth,
+      currentEnemies,
+      currentLevelGrid
     };
   }
 };

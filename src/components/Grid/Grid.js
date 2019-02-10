@@ -1,5 +1,4 @@
 import React from "react";
-import uuidv1 from "uuid/v1";
 import "./Grid.css";
 import wall from "../../images/wall.png";
 import floor from "../../images/floor.png";
@@ -24,10 +23,10 @@ const Grid = props => {
   const enemyArr = [goblin, skeleton, orc, chort];
   const enemy = enemyArr[props.floor];
 
-  const game = props.grid.map(row => {
+  const game = props.grid.map((row, i) => {
     return (
-      <tr key={uuidv1()}>
-        {row.map(val => {
+      <tr key={i}>
+        {row.map((val, i) => {
           if (val === 0) {
             backgroundImg = floor;
           } else if (val === 1) {
@@ -47,7 +46,7 @@ const Grid = props => {
           }
           return (
             <td
-              key={uuidv1()}
+              key={i}
               style={{ backgroundImage: "url(" + backgroundImg + ")" }}
             />
           );

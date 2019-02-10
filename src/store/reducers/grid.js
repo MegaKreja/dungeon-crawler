@@ -14,7 +14,7 @@ let grid = completeMap(0);
 const initialState = {
   playerX: grid.x,
   playerY: grid.y,
-  playerHealth: 1,
+  playerHealth: 100,
   playerExp: 0,
   playerLvl: 1,
   floor: 0,
