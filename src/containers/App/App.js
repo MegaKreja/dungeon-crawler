@@ -7,21 +7,26 @@ import "./App.css";
 
 class App extends Component {
   componentDidMount() {
-    document.addEventListener("keydown", this.props.movePlayer);
+    !this.props.gameOver &&
+      document.addEventListener("keydown", this.props.movePlayer);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.props.movePlayer);
+    !this.props.gameOver &&
+      document.removeEventListener("keydown", this.props.movePlayer);
   }
 
   render() {
+    let gameOverText = "";
+    if (this.props.playerHealth <= 0 && this.props.gameOver) {
+      gameOverText = <h1>You are dead!</h1>;
+    } else if (this.props.gameOver) {
+      gameOverText = <h1>You won, you defeated Beelzebub!</h1>;
+    }
+
     const gameOverScreen = (
       <div className="gameOver">
-        {this.props.playerHealth <= 0 ? (
-          <h1>You are dead!</h1>
-        ) : (
-          <h1>You won, you defeated Beelzebub!</h1>
-        )}
+        {gameOverText}
         <button onClick={() => this.props.newGame()}>Try Again?</button>
       </div>
     );

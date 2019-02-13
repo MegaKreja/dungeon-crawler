@@ -74,7 +74,8 @@ export const fightChance = (state, dir) => {
     playerHealth,
     currentEnemies,
     playerExp,
-    playerLvl
+    playerLvl,
+    gameOver
   } = state;
   if (dir === "left") {
     if (
@@ -92,7 +93,8 @@ export const fightChance = (state, dir) => {
       playerLvl,
       playerHealth,
       currentEnemies,
-      currentLevelGrid
+      currentLevelGrid,
+      gameOver
     };
   } else if (dir === "up") {
     if (
@@ -109,7 +111,8 @@ export const fightChance = (state, dir) => {
       playerLvl,
       playerHealth,
       currentEnemies,
-      currentLevelGrid
+      currentLevelGrid,
+      gameOver
     };
   } else if (dir === "right") {
     if (
@@ -125,7 +128,8 @@ export const fightChance = (state, dir) => {
       playerLvl,
       playerHealth,
       currentEnemies,
-      currentLevelGrid
+      currentLevelGrid,
+      gameOver
     };
   } else if (dir === "down") {
     if (
@@ -142,7 +146,8 @@ export const fightChance = (state, dir) => {
       playerLvl,
       playerHealth,
       currentEnemies,
-      currentLevelGrid
+      currentLevelGrid,
+      gameOver
     };
   }
 };
@@ -168,7 +173,7 @@ export const fight = (state, x, y) => {
   // if enemy is boss
   if (currentLevelGrid[x][y] === 7) {
     enemies[4].health -= weapon.damage + criticalDamagePlayer;
-    enemyHealth = enemies[4].health;
+    bossHealth = enemies[4].health;
     enemyDamage = enemies[4].damage;
   } else {
     // regular enemy

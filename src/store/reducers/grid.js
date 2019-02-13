@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionsTypes";
+import { enemies } from "../../constants/enemies";
 import { completeMap } from "../../constants/randomGrid";
 import {
   wallStop,
@@ -145,6 +146,7 @@ const movePlayer = (state, action) => {
       if (currentLevelGrid[playerX][playerY] === 6) {
         return nextFloor(state, playerX, playerY);
       }
+      enemies[4].health = 80;
       gameOver = fightResult.gameOver;
       currentLevelGrid[playerX][playerY] = 1;
       return {

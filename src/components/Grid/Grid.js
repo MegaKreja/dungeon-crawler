@@ -25,7 +25,7 @@ const Grid = props => {
 
   const game = props.grid.map((row, i) => {
     return (
-      <tr key={i}>
+      <tr>
         {row.map((val, i) => {
           if (val === 0) {
             backgroundImg = floor;
@@ -45,10 +45,7 @@ const Grid = props => {
             backgroundImg = bigDemon;
           }
           return (
-            <td
-              key={i}
-              style={{ backgroundImage: "url(" + backgroundImg + ")" }}
-            />
+            <td style={{ backgroundImage: "url(" + backgroundImg + ")" }} />
           );
         })}
       </tr>
