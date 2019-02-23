@@ -121,7 +121,7 @@ const Hud = props => {
         </div>
       </div>
       <div className="weapon box">
-        {weaponImg}
+        {weaponImg ? weaponImg : "loading"}
         <p>
           {props.weapon.name} DMG({props.weapon.damage})
         </p>

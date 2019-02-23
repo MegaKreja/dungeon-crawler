@@ -33,6 +33,7 @@ const newGame = (state, action) => {
   const currentLevelGrid = grid.map;
   const currentEnemies = grid.currentEnemies;
   const gameOver = false;
+  enemies[4].health = 250;
   return {
     ...state,
     playerHealth: 100,
@@ -146,7 +147,7 @@ const movePlayer = (state, action) => {
       if (currentLevelGrid[playerX][playerY] === 6) {
         return nextFloor(state, playerX, playerY);
       }
-      enemies[4].health = 80;
+      // enemies[4].health = 250;
       gameOver = fightResult.gameOver;
       currentLevelGrid[playerX][playerY] = 1;
       return {

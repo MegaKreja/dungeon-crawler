@@ -165,7 +165,7 @@ export const fight = (state, x, y) => {
   // default health and damage for conditionals later
   let enemyHealth = 20;
   const criticalDamageEnemy = Math.floor(Math.random() * 5);
-  const criticalDamagePlayer = Math.floor(Math.random() * 5);
+  const criticalDamagePlayer = Math.floor(Math.random() * 5) * playerLvl;
   let enemyDamage = currentEnemies[0].damage;
   // boss health
   let bossHealth = enemies[4].health;
